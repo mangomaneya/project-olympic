@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./App.css";
+import ListsOfTable from "./components/listsOfTable";
+import InputForm from "./components/InputForm";
 
 function App() {
   const [country, setCountry] = useState("");
@@ -14,15 +16,29 @@ function App() {
     e.preventDefault(); //새로고침 막기
 
     const newMedalList = {
-      id: new Date().getTime(),
       country: country,
       gold: Number(gold),
       silver: Number(silver),
       bronze: Number(bronze),
     };
-    
-    setMedalList([...medalList, newMedalList]);
-    console.log("추가됨",medalList);
+
+    console.log(country);
+    const listOfCountry = [];
+    medalList.forEach((medal) => {
+      listOfCountry.push(medal.country);
+    });
+    console.log(listOfCountry);
+    listOfCountry.includes(country)
+      ? alert(
+          "이미 리스트에 존재하는 나라는 추가 할 수 없습니다. 업데이트를 눌러주세요."
+        )
+      : setMedalList([...medalList, newMedalList]);
+    console.log("추가됨", medalList);
+
+    setCountry("");
+    setGold(0);
+    setSilver(0);
+    setBronze(0);
   };
   const countryInputChange = (e) => {
     setCountry(e.target.value);
@@ -37,95 +53,56 @@ function App() {
     setBronze(e.target.value);
   };
 
-
   // const updateMedalListHandler = () => {};
-  const deleteListHandler = (countryToDelete)=>{
-    const deletedMedalList = medalList.filter((medal)=>{
-      console.log("삭제되야할 나라",countryToDelete);
+  const deleteListHandler = (countryToDelete) => {
+    const deletedMedalList = medalList.filter((medal) => {
+      console.log("삭제되야할 나라", countryToDelete);
       return medal.country !== countryToDelete;
-    })
-    console.log("삭제 후에 배열",deletedMedalList);
+    });
+    console.log("삭제 후에 배열", deletedMedalList);
     setMedalList(deletedMedalList);
-  }; 
+  };
   return (
     <>
       <header>
         <h1>2024 파리 올림픽</h1>
-        <form onSubmit={submitHandler}>
-          <input
-            type="text"
-            value={country}
-            onChange={countryInputChange}
-            name="country"
-            placeholder="국가를 입력해주세요"
-            required
-          />
-          <input
-            type="number"
-            value={gold}
-            onChange={goldInputChange}
-            name="gold"
-            placeholder="0"
-            required
-          />
-          <input
-            type="number"
-            value={silver}
-            onChange={silverInputChange}
-            name="silver"
-            placeholder="0"
-            required
-          />
-          <input
-            type="number"
-            value={bronze}
-            onChange={bronzeInputChange}
-            name="bronze"
-            placeholder="0"
-            required
-          />
-
-          <button type="submit">
-            국가추가
-          </button>
-          <button type="submit">
-            업데이트
-          </button>
-        </form>
+        <InputForm countryInput={countryInputChange} goldInput={goldInputChange} silverInput={silverInputChange} bronzeInput={bronzeInputChange} onSubmit={submitHandler}/>
       </header>
       <main>
-        <ul>
-          { 
-            medalList.length === 0 ?
-              <p>아직 추가된 국가가 없습니다. 메달을 추적하세요!</p>:
-            medalList.map((medal)=>{ 
-              const{ id, country, gold, silver, bronze } = medal;
-              return <li key={id}>
-                    <div className="medalListStyle">{country}</div>
-                    <div className="medalListStyle">{gold}</div>
-                    <div className="medalListStyle">{silver}</div>
-                    <div className="medalListStyle">{bronze}</div>
-                    <button onClick={()=>deleteListHandler(country)}>삭제</button> 
-                    </li>
-            })
-          }
-          
-        </ul>
+        <table>
+          {medalList.length === 0 ? (
+            <thead>
+              <tr>아직 추가된 국가가 없습니다. 메달을 추적하세요!</tr>
+            </thead>
+          ) : (
+            <>
+              <thead>
+                <tr>
+                  <th>나라</th>
+                  <th>🥇 금메달</th>
+                  <th>🥈 은메달</th>
+                  <th>🥉 동메달</th>
+                  <th>액션</th>
+                </tr>
+              </thead>
+              <tbody>
+                {medalList
+                  .sort((a, b) => b.gold - a.gold)
+                  .map((medal) => {
+                    return (
+                      <ListsOfTable
+                        key={medal.country}
+                        medal={medal}
+                        deleteListHandler={deleteListHandler}
+                      />
+                    );
+                  })}
+              </tbody>
+            </>
+          )}
+        </table>
       </main>
     </>
   );
 }
-// const MedalList = (medal) => {
-  
-//   const{ country, gold, silver, bronze } = medal;
-//   return (
-//     <li>
-//       <div className="medalListStyle">{country}</div>
-//       <div className="medalListStyle">{gold}</div>
-//       <div className="medalListStyle">{silver}</div>
-//       <div className="medalListStyle">{bronze}</div>
-//     </li>
-//   );
-// };
-
 export default App;
