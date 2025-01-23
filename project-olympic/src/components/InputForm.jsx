@@ -1,48 +1,39 @@
+import Button from "./Button";
+import Input from "./Input";
+
 const InputForm = ({
-  countryInput,
-  goldInput,
-  silverInput,
-  bronzeInput,
   onSubmit,
+  inputData,
+  inputChangeHandler,
+  updateMedalListHandler,
 }) => {
-//   const [country, setCountry] = useState("");
-//   const [gold, setGold] = useState(0);
-//   const [silver, setSilver] = useState(0);
-//   const [bronze, setBronze] = useState(0);
-
+  const styleFlexColumn = {
+    display: "flex",
+    flexDirection : "column",
+    alignItems: "center",
+    gap: "4px",
+  };
+  const styleFlexRow_alignItems_flexEnd = {
+    display :"flex",
+    flexDirection:"row",
+    alignItems : "flex-end"
+  }
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        onChange={countryInput}
-        name="country"
-        placeholder="국가를 입력해주세요"
-        required
-      />
-      <input
-        type="number"
-        onChange={goldInput}
-        name="gold"
-        placeholder="0"
-        required
-      />
-      <input
-        type="number"
-        onChange={silverInput}
-        name="silver"
-        placeholder="0"
-        required
-      />
-      <input
-        type="number"
-        onChange={bronzeInput}
-        name="bronze"
-        placeholder="0"
-        required
-      />
+    <form onSubmit={onSubmit} style={styleFlexRow_alignItems_flexEnd}>
+      
+      <Input value={inputData.country} onChange={inputChangeHandler} type="text" name="country" placeholder="국가를 입력하세요" isRequired={true} id="country" htmlFor="country" text="국가명" style={styleFlexColumn}/>
 
-      <button>국가추가</button>
-      <button>업데이트</button>
+      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="gold" placeholder="0" isRequired={true} id="gold" htmlFor="gold" text="🥇 금메달" style={styleFlexColumn}/>
+
+      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="silver" placeholder="0" isRequired={true} id="silver" htmlFor="silver" text="🥈 은메달" style={styleFlexColumn}/>
+
+      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="bronze" placeholder="0" isRequired={true} id="bronze" htmlFor="bronze" text="🥉 동메달" style={styleFlexColumn}/>
+      
+      <div className="inline-block">
+        <Button text="국가 추가"></Button>
+        <Button type="button" onClick ={updateMedalListHandler} text="업데이트"></Button>
+        
+      </div>
     </form>
   );
 };
