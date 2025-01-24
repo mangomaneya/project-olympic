@@ -19,7 +19,7 @@ function App() {
     bronze: 0,
   });
 
-  //인풋 state 
+  //인풋 state
   const inputChangeHandler = (e) => {
     const { name, value } = e.target;
     setInputData((prev) => ({
@@ -28,7 +28,7 @@ function App() {
     }));
   };
 
-  //메달 집계 생성(create) 
+  //메달 집계 생성(create)
   const submitHandler = (e) => {
     e.preventDefault(); //새로고침 막기
     // console.log(e.target);
@@ -63,26 +63,26 @@ function App() {
     });
   };
 
-  // 메달 집계업데이트 
+  // 메달 집계업데이트
   const updateMedalListHandler = (e) => {
     e.preventDefault;
     const listOfCountry = medalList.map((medal) => medal.country);
     console.log(listOfCountry);
-    if(listOfCountry.includes(inputData.country)){
+    if (listOfCountry.includes(inputData.country)) {
       const updatedList = medalList.map((medal) => {
         return medal.country === inputData.country ? inputData : medal;
       });
       setMedalList(updatedList);
-      
+
       setInputData({
         country: "",
         gold: 0,
         silver: 0,
         bronze: 0,
       });
-    }else if(!inputData.country.trim()) {
-      alert("국가를 입력해야 업데이트 할 수 있습니다. 국가명을 입력해 주세요")
-    }else{
+    } else if (!inputData.country.trim()) {
+      alert("국가를 입력해야 업데이트 할 수 있습니다. 국가명을 입력해 주세요");
+    } else {
       alert(
         "리스트에 존재하는 국가만 추가 할 수 있습니다. 국가명을 확인해 주세요."
       );
@@ -99,6 +99,24 @@ function App() {
     console.log("삭제 후에 배열", deletedMedalList);
     setMedalList(deletedMedalList);
   };
+
+  const [ sortBy, setSortBy ] = useState("sortByGold");
+  const checkSortByHandler = (e)=>{
+    setSortBy(e.target.value);
+    console.log(sortBy);
+  }
+
+  const sortedMedalList = [...medalList].sort((a, b) => {
+    if (sortBy === "sortByGold") {
+      return b.gold - a.gold; // 금메달 순 정렬
+    } else if (sortBy === "sortByMedalCount") {
+      const totalA = a.gold + a.silver + a.bronze;
+      const totalB = b.gold + b.silver + b.bronze;
+      return totalB - totalA; // 메달 총합 순 정렬
+    }
+    return 0;
+  });
+
   return (
     <>
       <header>
@@ -111,10 +129,23 @@ function App() {
         />
       </header>
       <main>
+        <fieldset style={{ border: "none", width: "fit-content" }}>
+          {/* <legend>정렬</legend> */}
+          <p style={{ display: "inline", fontWeight: "800" }}> 정렬 : </p>
+          <div style={{ display: "inline" }}>
+            <input type="radio" value="sortByGold" id="sortByGold" onChange={checkSortByHandler} checked={sortBy === "sortByGold"}/>
+            <label htmlFor="sortByGold">금메달 순 </label>
+          </div>
+          <div style={{ display: "inline" }}>
+            <input type="radio" value="sortByMedalCount" id="sortByMedalCount" onChange={checkSortByHandler} checked={sortBy ==="sortByMedalCount"}/>
+            <label htmlFor="sortByMedalCount">메달 총계 순</label>
+          </div>
+        </fieldset>
         {/* 메달 집계 리스트 출력 */}
         <Table
           deleteListHandler={deleteListHandler}
-          medalList={medalList}
+          medalList={sortedMedalList}
+          sortBy ={sortBy}
         ></Table>
       </main>
     </>

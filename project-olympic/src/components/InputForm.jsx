@@ -23,11 +23,11 @@ const InputForm = ({
       
       <Input value={inputData.country} onChange={inputChangeHandler} type="text" name="country" placeholder="국가를 입력하세요" isRequired={true} id="country" htmlFor="country" text="국가명" style={styleFlexColumn}/>
 
-      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="gold" placeholder="0" isRequired={true} id="gold" htmlFor="gold" text="🥇 금메달" style={styleFlexColumn}/>
+      <Input value={inputData.gold} onChange={inputChangeHandler} type="number" name="gold" placeholder="0" isRequired={true} id="gold" htmlFor="gold" text="🥇 금메달" style={styleFlexColumn}/>
 
-      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="silver" placeholder="0" isRequired={true} id="silver" htmlFor="silver" text="🥈 은메달" style={styleFlexColumn}/>
+      <Input value={inputData.silver} onChange={inputChangeHandler} type="number" name="silver" placeholder="0" isRequired={true} id="silver" htmlFor="silver" text="🥈 은메달" style={styleFlexColumn}/>
 
-      <Input value={inputData.country} onChange={inputChangeHandler} type="number" name="bronze" placeholder="0" isRequired={true} id="bronze" htmlFor="bronze" text="🥉 동메달" style={styleFlexColumn}/>
+      <Input value={inputData.bronze} onChange={inputChangeHandler} type="number" name="bronze" placeholder="0" isRequired={true} id="bronze" htmlFor="bronze" text="🥉 동메달" style={styleFlexColumn}/>
       
       <div className="inline-block">
         <Button text="국가 추가"></Button>
