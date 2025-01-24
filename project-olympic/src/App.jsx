@@ -145,7 +145,6 @@ function App() {
         <Table
           deleteListHandler={deleteListHandler}
           medalList={sortedMedalList}
-          sortBy ={sortBy}
         ></Table>
       </main>
     </>

@@ -1,6 +1,6 @@
 import ListsOfTable from "./listsOfTable";
 
-const Table = ({ deleteListHandler, medalList, sortBy }) => {
+const Table = ({ deleteListHandler, medalList }) => {
   return (
     <table>
       {medalList.length === 0 ? (
